@@ -1,0 +1,36 @@
+li {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 10px 25px;
+    gap: 10px;
+    border-radius: 9999px;
+    border: solid 1px transparent;
+  
+    &:hover {
+      border: solid 1px #182134;
+    }
+  }
+.login{
+    display: inline-block;
+    border-radius: 9999px;
+
+    border: solid 1px transparent; 
+    &:hover{
+    border: solid 1px #1c3d5a; 
+    
+  } 
+}
+
+.icons{
+    display: inline-block;
+    margin-right: 5px;
+    padding: 50px 25px;
+    gap: 10px;
+    border-radius: 9999px;
+    border: solid 1px transparent;
+  
+    &:hover {
+      border: solid 1px #182134;
+    } 
+}
+
