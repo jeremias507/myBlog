@@ -1,6 +1,10 @@
 import { PencilIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../context/authContext'
+
 export const Perfil = (): JSX.Element => {
+  const { user } = useAuth()
+
   return (
     <div className="p-5 mt-16  rounded-2xl max-w-4xl max-h mx-auto border border-gray-800">
       <div className="flex">
@@ -13,7 +17,7 @@ export const Perfil = (): JSX.Element => {
         </div>
         <div className="flex flex-1  justify-between">
           <div>
-            <h2 className="text-white cursor-pointer ">Jeremias Barrios</h2>
+            <h2 className="text-white cursor-pointer ">{user?.name}</h2>
           </div>
           <div>
             <button

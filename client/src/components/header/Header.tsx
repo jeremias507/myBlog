@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import React, { useState, type ReactNode, Fragment } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import React, { type ReactNode, Fragment } from 'react'
 import { RxHamburgerMenu } from 'react-icons/rx'
 // import { IoMdClose } from 'react-icons/io'
 import './header.scss'
@@ -12,13 +12,15 @@ import { headerData } from '../../data/headerData'
 import { ProfileData } from '../../data/ProfileData'
 import { SearchPanel } from '../UI/SearchPanel'
 import { type ProfileInterface } from '../../interface/Profile'
+import { useAuth } from '../../context/authContext'
 
 interface HeaderProps {
   children?: ReactNode
 }
 
 export const Header: React.FC<HeaderProps> = ({ children }) => {
-  const [isAutenticate, setIsAutenticate] = useState<boolean>(false)
+  const { user, isAuthenticate, logout } = useAuth()
+  const navigate = useNavigate()
 
   return (
     <div
@@ -63,18 +65,12 @@ export const Header: React.FC<HeaderProps> = ({ children }) => {
           ))}
         </div>
 
-        {isAutenticate
+        {isAuthenticate
           ? (
           <div className=" gap-3 inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 ">
             <SearchPanel />
             <div className="mr-2">
-              <ButtonWrite
-                onClick={() => {
-                  setIsAutenticate(false)
-                }}
-              >
-                Escribir
-              </ButtonWrite>
+              <ButtonWrite>Escribir</ButtonWrite>
             </div>
             <button
               type="button"
@@ -111,8 +107,7 @@ export const Header: React.FC<HeaderProps> = ({ children }) => {
                 >
                   <Menu.Item>
                     {({ active }) => (
-                      <a
-                        href="#"
+                      <Link to="/perfil"
                         className={classNames(
                           active ? 'bg-gray-700' : '',
                           'block px-4 py-5 text-sm text-white   border-b border-gray-800  '
@@ -130,20 +125,26 @@ export const Header: React.FC<HeaderProps> = ({ children }) => {
                             />
                             <div className="flex flex-col items-start ">
                               <span className="font-bold text-base">
-                                Jeremias Barrios
+                                {user?.name}
                               </span>
-                              <span className="">@TheJuniorCode</span>
+                              <span className="">{user?.name}</span>
                             </div>
                           </Link>
                         </Menu.Button>
-                      </a>
+                      </Link>
                     )}
                   </Menu.Item>
                   {ProfileData.map((item: ProfileInterface) => (
                     <Menu.Item key={item.id}>
                       {({ active }) => (
                         <a
-                          href="#"
+                          onClick={() => {
+                            if (item.name === 'Cerrar sección') {
+                              logout()
+                              navigate('/')
+                            }
+                          }}
+                          href={item.path}
                           className={classNames(
                             active ? 'bg-gray-700' : '',
                             item.name === 'Ajustes'
@@ -183,11 +184,7 @@ export const Header: React.FC<HeaderProps> = ({ children }) => {
               {' '}
               <Link to="/login"> Log in</Link>
             </div>
-            <ButtonWrite
-              onClick={() => {
-                setIsAutenticate(true)
-              }}
-            >
+            <ButtonWrite>
               <Link to="#"> Crear Cuenta</Link>
             </ButtonWrite>
           </div>
